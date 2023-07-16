@@ -1,0 +1,5 @@
+.idea/*
+../log/*
+./log/*
+log/*
+./conf/app1.yml
