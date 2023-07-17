@@ -35,3 +35,8 @@ func CreateUser(user *model.User) error {
 func UpdateUserInfo(userName string, user *model.User) int64 {
 	return utils.GetDB().Model(&model.User{}).Where("`name` = ?", userName).Updates(user).RowsAffected
 }
+
+// DeleteUser 删除用户
+func DeleteUser(userName string) int64 {
+	return utils.GetDB().Model(&model.User{}).Where("`name` = ?", userName).Delete(&model.User{}).RowsAffected
+}

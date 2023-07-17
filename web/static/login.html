@@ -48,21 +48,24 @@
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: urlPrefix +'/user/login',
+            url: urlPrefix + '/user/login',
             contentType: "application/json",
-            data:JSON.stringify({
+            data: JSON.stringify({
                 "user_name": username.value,
                 "pass_word": passwd.value
             }),
-            success: function (result) {
+            success: function(result) {
                 console.log("data is :" + result)
                 if (result.code == 0) {
                     //alert("登陆成功");
                     window.location.href = urlPrefix + "/static/index.html?name=" + username.value;
-                    window.event.returnValue = false
-                }else {
-                    alert("账号或密码错误")
+                    window.event.returnValue = false;
+                } else {
+                    alert("账号或密码错误");
                 }
+            },
+            error: function(result) {
+                alert("登录失败，请稍后重试");
             }
         });
 

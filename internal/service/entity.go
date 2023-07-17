@@ -46,3 +46,8 @@ type UpdateAvatarRequest struct {
 	UserName string `json:"user_name"`
 	HeadUrl  string `json:"head_url"`
 }
+
+// DeleteUserRequest 删除用户请求
+type DeleteUserRequest struct {
+	UserName string `json:"user_name"`
+}

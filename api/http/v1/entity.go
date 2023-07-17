@@ -15,6 +15,7 @@ const (
 	CodeGetUserInfoErr    ErrCode = 10005 // 获取用户信息错误
 	CodeUpdateUserInfoErr ErrCode = 10006 // 更新用户信息错误
 	CodeUpdateAvatarErr   ErrCode = 10007 // 更新用户头像错误
+	CodeDeleteUserErr     ErrCode = 10008 // 删除用户错误
 )
 
 type (

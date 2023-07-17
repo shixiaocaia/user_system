@@ -227,3 +227,31 @@ func UpdateAvatar(ctx context.Context, req *UpdateAvatarRequest) error {
 
 	return updateUserInfo(updateUser, req.UserName, session)
 }
+
+func DeleteUser(ctx context.Context, req *DeleteUserRequest) error {
+	uuid := ctx.Value(constant.ReqUuid)
+	session := ctx.Value(constant.SessionKey).(string)
+	log.Infof("%s|DeleteUser access from,user_name=%s|session=%s", uuid, req.UserName, session)
+	log.Infof("DeleteUser|req==%v", req)
+
+	if session == "" || req.UserName == "" {
+		return fmt.Errorf("DeleteUser|request params invalid")
+	}
+
+	user, err := cache.GetSessionInfo(session)
+	if err != nil {
+		log.Errorf("%s|Failed to get with session=%s|err =%v", uuid, session, err)
+		return fmt.Errorf("DeleteUser|GetSessionInfo err:%v", err)
+	}
+
+	if user.Name != req.UserName {
+		log.Errorf("DeleteUser|%s|session info not match with username=%s", uuid, req.UserName)
+	}
+
+	affectedRows := dao.DeleteUser(req.UserName)
+	if affectedRows == 1 {
+		cache.DelUserCacheInfo(req.UserName)
+		cache.DelSessionInfo(session)
+	}
+	return nil
+}

@@ -164,4 +164,24 @@ func UploadAvatar(c *gin.Context) {
 	rsp.ResponseSuccess(c)
 }
 
-//
+// DeleteUser 删除用户
+func DeleteUser(c *gin.Context) {
+	req := &service.DeleteUserRequest{}
+	rsp := &HttpResponse{}
+	err := c.ShouldBindJSON(req)
+	if err != nil {
+		log.Errorf("bind delete user request json err %v", err)
+		rsp.ResponseWithError(c, CodeBodyBindErr, err.Error())
+		return
+	}
+	session, _ := c.Cookie(constant.SessionKey)
+	log.Infof("DeleteUser|session=%s", session)
+	ctx := context.WithValue(context.Background(), constant.SessionKey, session)
+	uuid := utils.Md5String(req.UserName + time.Now().GoString())
+	ctx = context.WithValue(ctx, "uuid", uuid)
+	if err := service.DeleteUser(ctx, req); err != nil {
+		rsp.ResponseWithError(c, CodeDeleteUserErr, err.Error())
+		return
+	}
+	rsp.ResponseSuccess(c)
+}
