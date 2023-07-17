@@ -50,6 +50,7 @@ func setAppRunMode() {
 	}
 }
 
+// AuthMiddleWare 认证中间件
 func AuthMiddleWare() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if session, err := c.Cookie(constant.SessionKey); err == nil {
